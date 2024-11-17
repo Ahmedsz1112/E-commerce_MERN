@@ -1,7 +1,7 @@
 import express  from "express";
 import { login, register } from "../services/userServices";
 
-export const router = express.Router()
+ const router = express.Router()
 
 router.post("/register",async (req, res) => {
     const {firstName, lastName ,email , password} = req.body
@@ -15,3 +15,5 @@ router.post("/login",async (req, res) => {
     const { statusCode , data} = await login({email ,password})
     res.status(statusCode).send(data)
 })
+
+export default router;
