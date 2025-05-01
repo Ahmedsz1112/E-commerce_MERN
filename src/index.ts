@@ -13,8 +13,8 @@ mongoose.connect('mongodb://localhost:27017/ecommerce')
 .then(() => console.log('Mongo Connected!'))
 .catch((error) => console.log('Failed to Connect!' , error))
 
-seedInitialProduts()
 
+seedInitialProduts()
 
 app.use("/user" , userRouter)
 app.use("/product" , routerProduct)
