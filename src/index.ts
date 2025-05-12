@@ -3,11 +3,16 @@ import mongoose from 'mongoose'
 import  userRouter  from './routers/userRouter'
 import { seedInitialProduts } from './services/productServices'
 import routerProduct from './routers/productRouter'
+import cors from "cors"
+
 
 const app = express()
 const port = 3001
 
+
 app.use(express.json())
+app.use(cors())
+
 
 mongoose.connect('mongodb://localhost:27017/ecommerce')
 .then(() => console.log('Mongo Connected!'))
@@ -16,9 +21,9 @@ mongoose.connect('mongodb://localhost:27017/ecommerce')
 
 seedInitialProduts()
 
+
 app.use("/user" , userRouter)
 app.use("/product" , routerProduct)
-
 
 
 app.listen(port , () => {
