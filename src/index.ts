@@ -1,31 +1,29 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import  userRouter  from './routers/userRouter'
-import { seedInitialProduts } from './services/productServices'
-import routerProduct from './routers/productRouter'
-import cors from "cors"
-require('dotenv').config();
+import express from "express";
+import mongoose from "mongoose";
+import userRouter from "./routers/userRouter";
+import { seedInitialProduts } from "./services/productServices";
+import routerProduct from "./routers/productRouter";
+import routerCart from "./routers/cartRouter";
+import cors from "cors";
+require("dotenv").config();
 
-const app = express()
-const port = 3001
+const app = express();
+const port = 3001;
 
+app.use(express.json());
+app.use(cors());
 
-app.use(express.json())
-app.use(cors())
+mongoose
+  .connect(`${process.env.MONGO_URI}/ecommerce`)
+  .then(() => console.log("Mongo Connected!"))
+  .catch((error) => console.log("Failed to Connect!", error));
 
+seedInitialProduts();
 
-mongoose.connect(`${process.env.MONGO_URI}/ecommerce`)
-.then(() => console.log('Mongo Connected!'))
-.catch((error) => console.log('Failed to Connect!' , error))
+app.use("/user", userRouter);
+app.use("/product", routerProduct);
+app.use("/cart", routerCart);
 
-
-seedInitialProduts()
-
-
-app.use("/user" , userRouter)
-app.use("/product" , routerProduct)
-
-
-app.listen(port , () => {
-    console.log(`Server is running at http://localhost:${port}`);
-})
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
